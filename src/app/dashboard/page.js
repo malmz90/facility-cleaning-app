@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
+import AppText from "@/components/ui/AppText";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -14,8 +15,12 @@ export default function DashboardPage() {
 
   return (
     <main className="container">
-      <h1>Dashboard</h1>
-      <p>Inloggad som: {user?.email}</p>
+      <AppText as="h1" variant="screenTitle">
+        Dashboard
+      </AppText>
+      <AppText as="p" variant="bodyText">
+        Inloggad som: {user?.email}
+      </AppText>
       <button onClick={handleLogout}>Logga ut</button>
     </main>
   );

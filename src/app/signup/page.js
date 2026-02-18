@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
+import AppText from "@/components/ui/AppText";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -42,7 +43,9 @@ export default function SignupPage() {
 
   return (
     <main className="container">
-      <h1>Skapa konto</h1>
+      <AppText as="h1" variant="screenTitle">
+        Skapa konto
+      </AppText>
       <form className="authForm" onSubmit={handleSubmit}>
         <input
           type="email"
@@ -63,11 +66,19 @@ export default function SignupPage() {
           {isSubmitting ? "Skapar konto..." : "Skapa konto"}
         </button>
       </form>
-      {message && <p className="ok">{message}</p>}
-      {error && <p className="error">{error}</p>}
-      <p>
+      {message && (
+        <AppText as="p" variant="bodyText" color="#10773f">
+          {message}
+        </AppText>
+      )}
+      {error && (
+        <AppText as="p" variant="bodyText" color="#c62828">
+          {error}
+        </AppText>
+      )}
+      <AppText as="p" variant="bodyText">
         Har du redan konto? <Link href="/login">Logga in</Link>
-      </p>
+      </AppText>
     </main>
   );
 }
