@@ -14,3 +14,20 @@ export const FONT_FAMILY = {
     extraBold: 'var(--font-roboto-serif), Georgia, "Times New Roman", serif',
   },
 };
+
+export const FONT_WEIGHT = {
+  primary: {
+    regular: 400,
+    medium: 500,
+    semiBold: 600,
+    bold: 700,
+    extraBold: 800,
+  },
+  secondary: {
+    regular: 500,
+    medium: 500,
+    semiBold: 600,
+    bold: 600,
+    extraBold: 600,
+  },
+};

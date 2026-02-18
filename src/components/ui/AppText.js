@@ -3,6 +3,7 @@
 import {
   COLORS,
   FONT_FAMILY,
+  FONT_WEIGHT,
   LINE_HEIGHT,
   setSpacing,
   TYPOGRAPHY,
@@ -31,6 +32,7 @@ export default function AppText({
   const variantStyles = variant ? TYPOGRAPHY[variant] : null;
   const variantFontFamily = variantStyles?.fontFamily;
   const fontFamily = variantFontFamily || FONT_FAMILY[family]?.[weight];
+  const fontWeight = variantStyles?.fontWeight || FONT_WEIGHT[family]?.[weight] || 400;
   const baseSize = TYPOGRAPHY_BASE[size] || TYPOGRAPHY_BASE.body;
   const fontSize = variantStyles?.fontSize || baseSize.fontSize;
 
@@ -71,6 +73,7 @@ export default function AppText({
 
   const textStyle = {
     fontFamily,
+    fontWeight,
     fontSize,
     lineHeight: calculatedLineHeight + "px",
     letterSpacing: calculatedLetterSpacing + "px",
