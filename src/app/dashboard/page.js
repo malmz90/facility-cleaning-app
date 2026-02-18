@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import AppText from "@/components/ui/AppText";
+import AppTextShowcase from "@/components/ui/AppTextShowcase";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -18,6 +19,7 @@ export default function DashboardPage() {
       <AppText as="h1" variant="screenTitle">
         Dashboard
       </AppText>
+      <AppTextShowcase />
       <AppText as="p" variant="bodyText">
         Inloggad som: {user?.email}
       </AppText>
