@@ -11,7 +11,7 @@ import {
   OPACITY,
   SPACING,
 } from "@/constants";
-import styles from "./AppButton.module.css";
+import styles from "./styles.module.css";
 
 const DEFAULT_VARIANT = "primary";
 const DEFAULT_SIZE = "large";
