@@ -6,69 +6,69 @@ import { LINE_HEIGHT } from "./lineHeight";
 import { TYPOGRAPHY_BASE } from "./typographyBase";
 
 export const TYPOGRAPHY = {
-  screenTitle: {
+  pageTitle: {
     ...TYPOGRAPHY_BASE.h1,
     fontFamily: FONT_FAMILY.secondary,
     fontWeight: FONT_WEIGHT.secondary.medium,
     color: COLORS.primary,
   },
-  screenSubtitle: {
+  pageSubtitle: {
     ...TYPOGRAPHY_BASE.h3,
     fontFamily: FONT_FAMILY.secondary,
     fontWeight: FONT_WEIGHT.secondary.medium,
     color: COLORS.primary,
   },
-  cardTitle: {
+  cardHeading: {
     ...TYPOGRAPHY_BASE.h3,
     fontFamily: FONT_FAMILY.primary,
     fontWeight: FONT_WEIGHT.primary.semiBold,
     color: COLORS.primary,
   },
-  bodyText: {
+  body: {
     ...TYPOGRAPHY_BASE.body,
     fontFamily: FONT_FAMILY.primary,
     fontWeight: FONT_WEIGHT.primary.regular,
     color: COLORS.textPrimary,
   },
-  bodyTextBold: {
+  bodyStrong: {
     ...TYPOGRAPHY_BASE.body,
     fontFamily: FONT_FAMILY.primary,
     fontWeight: FONT_WEIGHT.primary.semiBold,
     color: COLORS.textPrimary,
   },
-  bodyTextLink: {
+  bodyLink: {
     ...TYPOGRAPHY_BASE.body,
     fontFamily: FONT_FAMILY.primary,
     fontWeight: FONT_WEIGHT.primary.semiBold,
     color: COLORS.accent,
   },
-  smallText: {
+  caption: {
     ...TYPOGRAPHY_BASE.small,
     fontFamily: FONT_FAMILY.primary,
     fontWeight: FONT_WEIGHT.primary.regular,
     color: COLORS.textPrimary,
     marginBottom: FONT_SIZES.small,
   },
-  smallTextBold: {
+  captionStrong: {
     ...TYPOGRAPHY_BASE.small,
     fontFamily: FONT_FAMILY.primary,
     fontWeight: FONT_WEIGHT.primary.semiBold,
     color: COLORS.textPrimary,
   },
-  largeText: {
+  lead: {
     ...TYPOGRAPHY_BASE.large,
     fontFamily: FONT_FAMILY.primary,
     fontWeight: FONT_WEIGHT.primary.regular,
     color: COLORS.textPrimary,
     marginBottom: FONT_SIZES.large,
   },
-  largeTextBold: {
+  leadStrong: {
     ...TYPOGRAPHY_BASE.large,
     fontFamily: FONT_FAMILY.primary,
     fontWeight: FONT_WEIGHT.primary.semiBold,
     color: COLORS.textPrimary,
   },
-  sectionTitle: {
+  sectionHeading: {
     ...TYPOGRAPHY_BASE.body,
     fontFamily: FONT_FAMILY.primary,
     fontWeight: FONT_WEIGHT.primary.semiBold,

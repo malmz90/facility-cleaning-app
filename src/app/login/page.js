@@ -35,7 +35,7 @@ export default function LoginPage() {
 
   return (
     <main className="container">
-      <AppText as="h1" variant="screenTitle">
+      <AppText as="h1" variant="pageTitle">
         Logga in
       </AppText>
       <form className="authForm" onSubmit={handleSubmit}>
@@ -58,11 +58,11 @@ export default function LoginPage() {
         </button>
       </form>
       {error && (
-        <AppText as="p" variant="bodyText" color="#c62828">
+        <AppText as="p" variant="body" color="#c62828">
           {error}
         </AppText>
       )}
-      <AppText as="p" variant="bodyText">
+      <AppText as="p" variant="body">
         Inget konto? <Link href="/signup">Skapa konto</Link>
       </AppText>
     </main>

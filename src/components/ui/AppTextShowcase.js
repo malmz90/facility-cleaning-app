@@ -4,59 +4,59 @@ import AppText from "@/components/ui/AppText";
 
 const samples = [
   {
-    variant: "screenTitle",
+    variant: "pageTitle",
     as: "h2",
-    text: "screenTitle - huvudrubrik for screen/page",
+    text: "pageTitle - huvudrubrik for sida",
   },
   {
-    variant: "screenSubtitle",
+    variant: "pageSubtitle",
     as: "h3",
-    text: "screenSubtitle - underrubrik under huvudtitel",
+    text: "pageSubtitle - underrubrik under huvudtitel",
   },
   {
-    variant: "sectionTitle",
+    variant: "sectionHeading",
     as: "h4",
-    text: "sectionTitle - rubrik for sektioner i innehall",
+    text: "sectionHeading - rubrik for sektioner i innehall",
   },
   {
-    variant: "cardTitle",
+    variant: "cardHeading",
     as: "h4",
-    text: "cardTitle - rubrik i cards/list-items",
+    text: "cardHeading - rubrik i cards/list-items",
   },
   {
-    variant: "largeText",
+    variant: "lead",
     as: "p",
-    text: "largeText - stor brodtext for viktiga budskap",
+    text: "lead - stor brodtext for viktiga budskap",
   },
   {
-    variant: "largeTextBold",
+    variant: "leadStrong",
     as: "p",
-    text: "largeTextBold - stor brodtext med tydlig betoning",
+    text: "leadStrong - stor brodtext med tydlig betoning",
   },
   {
-    variant: "bodyText",
+    variant: "body",
     as: "p",
-    text: "bodyText - standardtext for normala stycken",
+    text: "body - standardtext for normala stycken",
   },
   {
-    variant: "bodyTextBold",
+    variant: "bodyStrong",
     as: "p",
-    text: "bodyTextBold - standardtext med semibold vikt",
+    text: "bodyStrong - standardtext med semibold vikt",
   },
   {
-    variant: "bodyTextLink",
+    variant: "bodyLink",
     as: "p",
-    text: "bodyTextLink - textstil for inline-lankar/action-text",
+    text: "bodyLink - textstil for inline-lankar/action-text",
   },
   {
-    variant: "smallText",
+    variant: "caption",
     as: "p",
-    text: "smallText - mindre text for hjalptext och metadata",
+    text: "caption - mindre text for hjalptext och metadata",
   },
   {
-    variant: "smallTextBold",
+    variant: "captionStrong",
     as: "p",
-    text: "smallTextBold - liten text med starkare vikt",
+    text: "captionStrong - liten text med starkare vikt",
   },
 ];
 
@@ -71,7 +71,7 @@ export default function AppTextShowcase() {
         gap: 10,
       }}
     >
-      <AppText as="h3" variant="sectionTitle">
+      <AppText as="h3" variant="sectionHeading">
         AppText variants demo
       </AppText>
 

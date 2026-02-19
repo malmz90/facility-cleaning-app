@@ -16,11 +16,11 @@ export default function DashboardPage() {
 
   return (
     <main className="container">
-      <AppText as="h1" variant="screenTitle">
+      <AppText as="h1" variant="pageTitle">
         Dashboard
       </AppText>
       <AppTextShowcase />
-      <AppText as="p" variant="bodyText">
+      <AppText as="p" variant="body">
         Inloggad som: {user?.email}
       </AppText>
       <button onClick={handleLogout}>Logga ut</button>

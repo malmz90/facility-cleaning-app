@@ -43,7 +43,7 @@ export default function SignupPage() {
 
   return (
     <main className="container">
-      <AppText as="h1" variant="screenTitle">
+      <AppText as="h1" variant="pageTitle">
         Skapa konto
       </AppText>
       <form className="authForm" onSubmit={handleSubmit}>
@@ -67,16 +67,16 @@ export default function SignupPage() {
         </button>
       </form>
       {message && (
-        <AppText as="p" variant="bodyText" color="#10773f">
+        <AppText as="p" variant="body" color="#10773f">
           {message}
         </AppText>
       )}
       {error && (
-        <AppText as="p" variant="bodyText" color="#c62828">
+        <AppText as="p" variant="body" color="#c62828">
           {error}
         </AppText>
       )}
-      <AppText as="p" variant="bodyText">
+      <AppText as="p" variant="body">
         Har du redan konto? <Link href="/login">Logga in</Link>
       </AppText>
     </main>
