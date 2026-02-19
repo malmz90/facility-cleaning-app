@@ -7,7 +7,7 @@
 }
 
 .button:focus-visible {
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.25);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.25);
 }
 
 .spinner {

@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import {
   BORDER_RADIUS,
   COLORS,
@@ -92,6 +93,7 @@ function getSizeStyle(size) {
 export default function AppButton({
   children,
   onPress,
+  href,
   variant = DEFAULT_VARIANT,
   size = DEFAULT_SIZE,
   leftIcon,
@@ -141,49 +143,74 @@ export default function AppButton({
     alignItems: "center",
   };
 
+  const sharedProps = {
+    className: styles.button,
+    onMouseDown: () => setIsPressed(true),
+    onMouseUp: () => setIsPressed(false),
+    onMouseLeave: () => setIsPressed(false),
+    onTouchStart: () => setIsPressed(true),
+    onTouchEnd: () => setIsPressed(false),
+    style: buttonStyle,
+  };
+
+  const content = loading ? (
+    <>
+      <span
+        className={styles.spinner}
+        style={{ color: getSpinnerColor(variant), marginRight: SPACING.x2 }}
+        aria-hidden="true"
+      />
+      <span style={labelStyle}>Laddar...</span>
+    </>
+  ) : (
+    <>
+      {leftIcon ? (
+        <span style={{ marginRight: SPACING.x2, display: "inline-flex" }}>
+          {leftIcon}
+        </span>
+      ) : null}
+
+      {typeof children === "string" ? (
+        <span style={labelStyle}>{children}</span>
+      ) : (
+        children
+      )}
+
+      {rightIcon ? (
+        <span style={{ marginLeft: SPACING.x2, display: "inline-flex" }}>
+          {rightIcon}
+        </span>
+      ) : null}
+    </>
+  );
+
+  if (href) {
+    return (
+      <Link
+        href={href}
+        aria-disabled={isDisabled}
+        tabIndex={isDisabled ? -1 : 0}
+        onClick={(event) => {
+          if (isDisabled) {
+            event.preventDefault();
+          }
+        }}
+        {...sharedProps}
+      >
+        {content}
+      </Link>
+    );
+  }
+
   return (
     <button
       type={type}
       className={styles.button}
       onClick={onPress}
       disabled={isDisabled}
-      onMouseDown={() => setIsPressed(true)}
-      onMouseUp={() => setIsPressed(false)}
-      onMouseLeave={() => setIsPressed(false)}
-      onTouchStart={() => setIsPressed(true)}
-      onTouchEnd={() => setIsPressed(false)}
-      style={buttonStyle}
+      {...sharedProps}
     >
-      {loading ? (
-        <>
-          <span
-            className={styles.spinner}
-            style={{ color: getSpinnerColor(variant), marginRight: SPACING.x2 }}
-            aria-hidden="true"
-          />
-          <span style={labelStyle}>Laddar...</span>
-        </>
-      ) : (
-        <>
-          {leftIcon ? (
-            <span style={{ marginRight: SPACING.x2, display: "inline-flex" }}>
-              {leftIcon}
-            </span>
-          ) : null}
-
-          {typeof children === "string" ? (
-            <span style={labelStyle}>{children}</span>
-          ) : (
-            children
-          )}
-
-          {rightIcon ? (
-            <span style={{ marginLeft: SPACING.x2, display: "inline-flex" }}>
-              {rightIcon}
-            </span>
-          ) : null}
-        </>
-      )}
+      {content}
     </button>
   );
 }

@@ -1,7 +1,7 @@
 export const COLORS = {
-  primary: "#4F46E5", // indigo-600
-  primaryPressed: "#4338CA", // indigo-700
-  accent: "#6366F1",
+  primary: "#13797D",
+  secondary: "#1D2935",
+  accent: "#008670", // General UI accent
 
   backgroundPrimary: "#FFFFFF",
   backgroundSecondary: "#F5F5F5",
@@ -59,30 +59,4 @@ export const COLORS = {
   overlayBorder: "#FFFFFF",
   overlayBorderSubtle: "rgba(255, 255, 255, 0.25)",
   overlayBorderFocus: "#008670",
-
-  moodHeader: "#F6CEA1",
-  moodIcon: "#804424",
-  moodText: "#804424",
-
-  savingsHeader: "#B5C8E9",
-  savingsIcon: "#203768",
-  savingsText: "#203768",
-
-  milestonesHeader: "#FAD9E5",
-  milestonesIcon: "#E58AA9",
-  milestonesText: "#B24F74",
-
-  promiseHeader: "#E6E0FF",
-  promiseIcon: "#8466F6",
-
-  cardMainBackground: "#554C48",
-  cardMainText: "#FFFFFF",
-
-  dailyHistoryTipBackground: "#FFF3F3",
-  dailyHistoryEmojiOutline: "#F5F5F5",
-  dailyHistoryIconDisabled: "#B2B2B2",
-  dailyLogTextInputBackground: "#FFFFFF",
-  dailyLogTextInputBorder: "#EEEEEE",
-
-  popupDropShadow: "rgba(35, 35, 51, 0.2)",
 };
