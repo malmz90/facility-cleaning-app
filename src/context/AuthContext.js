@@ -16,7 +16,7 @@ import {
  * and UI-related auth state (loading, user email, logout button, etc.).
  * 
  * Route protection is handled on the server via:
- * - Middleware (src/middleware.js) for initial route checks
+ * - Proxy (src/proxy.js) for initial route checks
  * - Dashboard layout (app/dashboard/layout.js) for server-side verification
  * 
  * DO NOT use this context for route protection or security decisions.
