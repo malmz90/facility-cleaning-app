@@ -2,10 +2,10 @@ import { createClient } from "@/lib/supabase/middleware";
 import { NextResponse } from "next/server";
 
 /**
- * Middleware to protect routes requiring authentication
+ * Proxy to protect routes requiring authentication
  * @param {import('next/server').NextRequest} request
  */
-export async function middleware(request) {
+export async function proxy(request) {
   const { supabase, response } = createClient(request);
 
   // Refresh session if expired - required for Server Components
@@ -22,7 +22,8 @@ export async function middleware(request) {
   return response;
 }
 
-// Apply middleware only to dashboard routes
+// Apply proxy only to dashboard routes
 export const config = {
   matcher: ["/dashboard/:path*"],
 };
+
