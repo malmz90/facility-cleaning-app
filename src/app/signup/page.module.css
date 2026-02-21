@@ -18,13 +18,22 @@
     0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
-.brand {
-  display: flex;
+.backLink {
+  display: inline-flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 32px;
+  gap: 6px;
+  margin-bottom: 28px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #0e0b33;
+  text-decoration: none;
+  opacity: 0.6;
+  transition: opacity 0.15s ease;
 }
 
+.backLink:hover {
+  opacity: 1;
+}
 
 .form {
   display: flex;

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
+import { ArrowLeft } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
@@ -49,9 +49,10 @@ export default function SignupPage() {
   return (
     <div className={styles.page}>
       <div className={styles.card}>
-        <div className={styles.brand}>
-          <Image src="/logo.png" alt="StädAppen" width={120} height={60} style={{ objectFit: "contain" }} />
-        </div>
+        <Link href="/" className={styles.backLink}>
+          <ArrowLeft size={18} weight="bold" />
+          Tillbaka
+        </Link>
 
         <AppText as="h1" variant="pageTitle" style={{ marginBottom: SPACING.x1 }}>
           Skapa konto

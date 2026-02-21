@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import AppButton from "@/components/ui/AppButton";
@@ -69,7 +68,9 @@ export default function DashboardPage() {
     <div className={styles.page}>
       <header className={styles.topbar}>
         <div className={styles.topbarInner}>
-          <Image src="/logo.png" alt="StädAppen" width={100} height={50} style={{ objectFit: "contain" }} />
+          <AppText as="span" size="body" weight="semiBold" color={COLORS.primary}>
+            StädAppen
+          </AppText>
 
           <div className={styles.userRow}>
             <div className={styles.avatar}>
