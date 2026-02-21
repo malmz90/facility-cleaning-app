@@ -2,7 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse } from "next/server";
 
 /**
- * Creates a Supabase client for use in Middleware
+ * Creates a Supabase client for use in proxy
  * @param {Request} request
  * @returns {{ supabase: import('@supabase/supabase-js').SupabaseClient, response: NextResponse }}
  */
@@ -23,17 +23,17 @@ export function createClient(request) {
         },
         setAll(cookiesToSet) {
           cookiesToSet.forEach(({ name, value, options }) =>
-            request.cookies.set(name, value)
+            request.cookies.set(name, value),
           );
           response = NextResponse.next({
             request,
           });
           cookiesToSet.forEach(({ name, value, options }) =>
-            response.cookies.set(name, value, options)
+            response.cookies.set(name, value, options),
           );
         },
       },
-    }
+    },
   );
 
   return { supabase, response };
