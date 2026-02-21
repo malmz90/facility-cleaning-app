@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Eye, EyeSlash } from "@phosphor-icons/react";
+import { EyeIcon, EyeSlashIcon } from "@phosphor-icons/react";
 import {
   BORDER_RADIUS,
   COLORS,
@@ -69,7 +69,9 @@ export default function AppInput({
         style={{
           "--border-color": isOverlay ? "#ffffff" : COLORS.borderDefault,
           "--border-width": isOverlay ? "2px" : "1px",
-          "--border-focus-color": isOverlay ? COLORS.accent : COLORS.borderFocus,
+          "--border-focus-color": isOverlay
+            ? COLORS.accent
+            : COLORS.borderFocus,
           "--focus-ring-color": isOverlay
             ? `${COLORS.accent}33`
             : `${COLORS.borderFocus}22`,
@@ -105,9 +107,9 @@ export default function AppInput({
             aria-label={isPasswordVisible ? "Dölj lösenord" : "Visa lösenord"}
           >
             {isPasswordVisible ? (
-              <Eye size={20} color={COLORS.textSecondary} />
+              <EyeIcon size={20} color={COLORS.textSecondary} />
             ) : (
-              <EyeSlash size={20} color={COLORS.textSecondary} />
+              <EyeSlashIcon size={20} color={COLORS.textSecondary} />
             )}
           </button>
         )}

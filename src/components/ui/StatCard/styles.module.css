@@ -1,0 +1,15 @@
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px 24px;
+  border: 1px solid rgba(123, 96, 83, 0.12);
+  display: grid;
+  gap: 6px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  margin-bottom: 2px;
+}

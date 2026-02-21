@@ -25,16 +25,6 @@
   margin-bottom: 32px;
 }
 
-.brandMark {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: #13797d;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
 
 .form {
   display: flex;

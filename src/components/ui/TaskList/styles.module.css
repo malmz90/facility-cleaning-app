@@ -1,0 +1,44 @@
+.section {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid rgba(123, 96, 83, 0.12);
+  overflow: hidden;
+}
+
+.header {
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(123, 96, 83, 0.1);
+}
+
+.body {
+  padding: 8px 24px 16px;
+  display: grid;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(123, 96, 83, 0.08);
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.info {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.badge {
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  flex-shrink: 0;
+  white-space: nowrap;
+}

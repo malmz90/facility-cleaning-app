@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
@@ -49,20 +50,7 @@ export default function SignupPage() {
     <div className={styles.page}>
       <div className={styles.card}>
         <div className={styles.brand}>
-          <div className={styles.brandMark}>
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path
-                d="M10 2L3 7v11h5v-5h4v5h5V7L10 2z"
-                fill="none"
-                stroke="#ffffff"
-                strokeWidth="1.5"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </div>
-          <AppText as="span" size="large" weight="semiBold" color={COLORS.primary}>
-            FacilityClean
-          </AppText>
+          <Image src="/logo.png" alt="StädAppen" width={120} height={60} style={{ objectFit: "contain" }} />
         </div>
 
         <AppText as="h1" variant="pageTitle" style={{ marginBottom: SPACING.x1 }}>
