@@ -1,0 +1,78 @@
+.label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  line-height: 22.4px;
+  font-weight: 500;
+}
+
+.inputRow {
+  display: flex;
+  align-items: center;
+  border: var(--border-width, 1px) solid var(--border-color, #7b605366);
+  border-radius: 8px;
+  background-color: #ffffff;
+  padding-inline: 12px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.inputRow:focus-within {
+  border-color: var(--border-focus-color, #554c48);
+  box-shadow: 0 0 0 3px var(--focus-ring-color, rgba(85, 76, 72, 0.13));
+}
+
+.input {
+  flex: 1;
+  height: 48px;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 0;
+  min-width: 0;
+}
+
+.input::placeholder {
+  color: rgba(29, 41, 53, 0.45);
+}
+
+.input:disabled {
+  cursor: not-allowed;
+}
+
+.eyeButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-right: -4px;
+  color: inherit;
+}
+
+.eyeButton:focus-visible {
+  outline: 2px solid #13797d;
+  outline-offset: 1px;
+}
+
+.feedback {
+  margin-top: 6px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  line-height: 21px;
+  font-weight: 500;
+}
+
+.subtitle {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 21px;
+  opacity: 0.7;
+}

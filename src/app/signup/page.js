@@ -5,6 +5,10 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import AppText from "@/components/ui/AppText";
+import AppButton from "@/components/ui/AppButton";
+import AppInput from "@/components/ui/AppInput";
+import { COLORS, SPACING } from "@/constants";
+import styles from "./page.module.css";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -42,43 +46,93 @@ export default function SignupPage() {
   };
 
   return (
-    <main className="container">
-      <AppText as="h1" variant="pageTitle">
-        Skapa konto
-      </AppText>
-      <form className="authForm" onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="E-post"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Lösenord"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          minLength={6}
-          required
-        />
-        <button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Skapar konto..." : "Skapa konto"}
-        </button>
-      </form>
-      {message && (
-        <AppText as="p" variant="body" color="#10773f">
-          {message}
+    <div className={styles.page}>
+      <div className={styles.card}>
+        <div className={styles.brand}>
+          <div className={styles.brandMark}>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path
+                d="M10 2L3 7v11h5v-5h4v5h5V7L10 2z"
+                fill="none"
+                stroke="#ffffff"
+                strokeWidth="1.5"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
+          <AppText as="span" size="large" weight="semiBold" color={COLORS.primary}>
+            FacilityClean
+          </AppText>
+        </div>
+
+        <AppText as="h1" variant="pageTitle" style={{ marginBottom: SPACING.x1 }}>
+          Skapa konto
         </AppText>
-      )}
-      {error && (
-        <AppText as="p" variant="body" color="#c62828">
-          {error}
+        <AppText
+          as="p"
+          size="small"
+          color={COLORS.textSecondary}
+          style={{ marginBottom: SPACING.x6 }}
+        >
+          Kom igång gratis. Fyll i dina uppgifter nedan.
         </AppText>
-      )}
-      <AppText as="p" variant="body">
-        Har du redan konto? <Link href="/login">Logga in</Link>
-      </AppText>
-    </main>
+
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <AppInput
+            id="email"
+            label="E-post"
+            type="email"
+            value={email}
+            onChangeText={setEmail}
+            placeholder="namn@foretag.se"
+            autoComplete="email"
+            signup
+            required
+          />
+
+          <AppInput
+            id="password"
+            label="Lösenord"
+            password
+            value={password}
+            onChangeText={setPassword}
+            placeholder="Minst 6 tecken"
+            autoComplete="new-password"
+            minLength={6}
+            signup
+            required
+          />
+
+          {message && (
+            <div className={styles.successBanner}>
+              <AppText as="span" size="small" color={COLORS.success}>
+                {message}
+              </AppText>
+            </div>
+          )}
+
+          {error && (
+            <div className={styles.errorBanner}>
+              <AppText as="span" size="small" color={COLORS.error}>
+                {error}
+              </AppText>
+            </div>
+          )}
+
+          <AppButton type="submit" loading={isSubmitting} style={{ marginTop: SPACING.x1 }}>
+            Skapa konto
+          </AppButton>
+        </form>
+
+        <div className={styles.footer}>
+          <AppText as="p" size="small" color={COLORS.textSecondary}>
+            Har du redan konto?{" "}
+            <Link href="/login" style={{ color: COLORS.link, fontWeight: 600 }}>
+              Logga in
+            </Link>
+          </AppText>
+        </div>
+      </div>
+    </div>
   );
 }
