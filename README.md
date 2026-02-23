@@ -6,7 +6,7 @@
 
 Systemet består av:
 
-- **Webbapp** för företagets ägare / admin (dashboard, uppsättning, översikt)
+- **Webbapp** för företagets ägare / admin (skapa konto,organisation,dashboard, lägga till personal,)
 - **Mobilapp** för städpersonal (QR-skanning, instruktioner, loggning)
 
 Autentisering och datasäkerhet hanteras via **Supabase** med **Row Level Security (RLS)**.
@@ -31,6 +31,7 @@ Autentisering och datasäkerhet hanteras via **Supabase** med **Row Level Securi
 Admin kan:
 
 - Skapa och hantera:
+  - Organization
   - Buildings
   - Rooms
   - QR-koder
@@ -56,7 +57,6 @@ Städpersonal kan inte ändra data eller se admin-vyer.
 ## 3. Arkitekturprinciper
 
 - **Supabase Auth** = vem användaren är
-- **Egna domäntabeller** = vad användaren får göra
 - **Row Level Security (RLS)** = tvingar alla regler i databasen
 - Frontend visar rätt UI men har aldrig ansvar för säkerhet
 
