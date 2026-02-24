@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft } from "@phosphor-icons/react";
+import { ArrowLeftIcon } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
@@ -42,11 +42,15 @@ export default function LoginPage() {
     <div className={styles.page}>
       <div className={styles.card}>
         <Link href="/" className={styles.backLink}>
-          <ArrowLeft size={18} weight="bold" />
+          <ArrowLeftIcon size={18} weight="bold" />
           Tillbaka
         </Link>
 
-        <AppText as="h1" variant="pageTitle" style={{ marginBottom: SPACING.x1 }}>
+        <AppText
+          as="h1"
+          variant="pageTitle"
+          style={{ marginBottom: SPACING.x1 }}
+        >
           Logga in
         </AppText>
         <AppText
@@ -65,7 +69,7 @@ export default function LoginPage() {
             type="email"
             value={email}
             onChangeText={setEmail}
-            placeholder="namn@foretag.se"
+            placeholder="namn@email.se"
             autoComplete="email"
             required
           />
@@ -89,7 +93,11 @@ export default function LoginPage() {
             </div>
           )}
 
-          <AppButton type="submit" loading={isSubmitting} style={{ marginTop: SPACING.x1 }}>
+          <AppButton
+            type="submit"
+            loading={isSubmitting}
+            style={{ marginTop: SPACING.x1 }}
+          >
             Logga in
           </AppButton>
         </form>
@@ -97,7 +105,10 @@ export default function LoginPage() {
         <div className={styles.footer}>
           <AppText as="p" size="small" color={COLORS.textSecondary}>
             Inget konto?{" "}
-            <Link href="/signup" style={{ color: COLORS.link, fontWeight: 600 }}>
+            <Link
+              href="/signup"
+              style={{ color: COLORS.link, fontWeight: 600 }}
+            >
               Skapa konto
             </Link>
           </AppText>

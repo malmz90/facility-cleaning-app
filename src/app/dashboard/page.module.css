@@ -27,6 +27,19 @@
   gap: 12px;
 }
 
+/* Hidden on mobile, replaced by .mobileMenu */
+.mobileMenu {
+  display: none;
+}
+
+.mobileMenuUser {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(123, 96, 83, 0.12);
+}
+
 .avatar {
   width: 34px;
   height: 34px;
@@ -51,6 +64,14 @@
   gap: 4px;
 }
 
+.greetingRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
 .statsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -68,5 +89,13 @@
 
   .statsGrid {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .userRow {
+    display: none;
+  }
+
+  .mobileMenu {
+    display: block;
   }
 }

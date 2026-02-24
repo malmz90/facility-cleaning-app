@@ -54,7 +54,11 @@ export default function SignupPage() {
           Tillbaka
         </Link>
 
-        <AppText as="h1" variant="pageTitle" style={{ marginBottom: SPACING.x1 }}>
+        <AppText
+          as="h1"
+          variant="pageTitle"
+          style={{ marginBottom: SPACING.x1 }}
+        >
           Skapa konto
         </AppText>
         <AppText
@@ -73,7 +77,7 @@ export default function SignupPage() {
             type="email"
             value={email}
             onChangeText={setEmail}
-            placeholder="namn@foretag.se"
+            placeholder="namn@email.se"
             autoComplete="email"
             signup
             required
@@ -108,7 +112,11 @@ export default function SignupPage() {
             </div>
           )}
 
-          <AppButton type="submit" loading={isSubmitting} style={{ marginTop: SPACING.x1 }}>
+          <AppButton
+            type="submit"
+            loading={isSubmitting}
+            style={{ marginTop: SPACING.x1 }}
+          >
             Skapa konto
           </AppButton>
         </form>

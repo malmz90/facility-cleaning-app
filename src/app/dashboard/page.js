@@ -6,6 +6,8 @@ import AppButton from "@/components/ui/AppButton";
 import AppText from "@/components/ui/AppText";
 import StatCard from "@/components/ui/StatCard";
 import TaskList from "@/components/ui/TaskList";
+import AddEmployeeModal from "@/components/ui/AddEmployeeModal";
+import HamburgerMenu from "@/components/ui/HamburgerMenu";
 import { COLORS } from "@/constants";
 import styles from "./page.module.css";
 
@@ -72,6 +74,7 @@ export default function DashboardPage() {
             StädAppen
           </AppText>
 
+          {/* Desktop: avatar + email + logout button */}
           <div className={styles.userRow}>
             <div className={styles.avatar}>
               <AppText as="span" size="small" weight="semiBold" color="#ffffff">
@@ -91,14 +94,53 @@ export default function DashboardPage() {
               Logga ut
             </AppButton>
           </div>
+
+          {/* Mobile: hamburger menu */}
+          <div className={styles.mobileMenu}>
+            <HamburgerMenu ariaLabel="Öppna användarmeny">
+              {(close) => (
+                <>
+                  <div className={styles.mobileMenuUser}>
+                    <div className={styles.avatar}>
+                      <AppText as="span" size="small" weight="semiBold" color="#ffffff">
+                        {getInitials(user?.email)}
+                      </AppText>
+                    </div>
+                    <AppText
+                      as="span"
+                      size="small"
+                      color={COLORS.textSecondary}
+                      numberOfLines={1}
+                      style={{ maxWidth: 160 }}
+                    >
+                      {user?.email}
+                    </AppText>
+                  </div>
+                  <AppButton
+                    variant="ghost"
+                    size="small"
+                    onPress={() => {
+                      close();
+                      handleLogout();
+                    }}
+                  >
+                    Logga ut
+                  </AppButton>
+                </>
+              )}
+            </HamburgerMenu>
+          </div>
         </div>
       </header>
 
       <main className={styles.content}>
         <div className={styles.greeting}>
-          <AppText as="h1" variant="pageTitle">
-            Översikt
-          </AppText>
+          <div className={styles.greetingRow}>
+            <AppText as="h1" variant="pageTitle">
+              Översikt
+            </AppText>
+            <AddEmployeeModal />
+          </div>
           <AppText as="p" size="small" color={COLORS.textSecondary}>
             Här ser du dina tilldelade uppdrag och status för dagen.
           </AppText>
