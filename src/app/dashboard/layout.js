@@ -1,10 +1,11 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import DashboardShell from "@/components/layout/DashboardShell";
 
 /**
- * Dashboard layout — server-side double-check of auth + onboarding.
- * Middleware handles the common path; this is a safety net for direct
- * server renders that bypass middleware (e.g. prefetch, RSC fetches).
+ * Dashboard layout — server-side auth + onboarding guard.
+ * Passes the authenticated user's email down to the client-side shell
+ * so the sidebar can display it without an extra client fetch.
  */
 export default async function DashboardLayout({ children }) {
   const supabase = await createClient();
@@ -30,5 +31,9 @@ export default async function DashboardLayout({ children }) {
     redirect("/onboarding/create-organization");
   }
 
-  return <>{children}</>;
+  return (
+    <DashboardShell userEmail={user.email}>
+      {children}
+    </DashboardShell>
+  );
 }
