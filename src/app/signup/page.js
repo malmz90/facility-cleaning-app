@@ -8,12 +8,13 @@ import { useAuth } from "@/hooks/useAuth";
 import AppText from "@/components/ui/AppText";
 import AppButton from "@/components/ui/AppButton";
 import AppInput from "@/components/ui/AppInput";
+import AppLoader from "@/components/ui/AppLoader";
 import { COLORS, SPACING } from "@/constants";
 import styles from "./page.module.css";
 
 export default function SignupPage() {
   const router = useRouter();
-  const { signUp, user } = useAuth();
+  const { signUp, user, loading } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -21,8 +22,12 @@ export default function SignupPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    if (user) router.replace("/dashboard");
-  }, [router, user]);
+    if (!loading && user) router.replace("/dashboard");
+  }, [loading, router, user]);
+
+  if (loading || user) {
+    return <AppLoader fullScreen label="Kontrollerar inloggning..." />;
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
