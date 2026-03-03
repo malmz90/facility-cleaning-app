@@ -7,6 +7,10 @@ export const COLORS = {
   backgroundSecondary: "#F5F5F5",
   backgroundTertiary: "#FCFCFC",
 
+  sidebarBg: "#1D2935",
+  sidebarText: "rgba(255, 255, 255, 0.9)",
+  sidebarTextMuted: "rgba(255, 255, 255, 0.5)",
+
   textPrimary: "#212121",
   textSecondary: "#0E0B33",
   textTertiary: "#F5F5F5",

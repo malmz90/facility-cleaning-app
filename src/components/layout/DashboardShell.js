@@ -63,7 +63,7 @@ export default function DashboardShell({ children, userEmail }) {
         <nav className={styles.nav} aria-label="Huvudnavigation">
           {NAV_ITEMS.map(({ label, href, Icon }) => {
             const isActive = pathname === href;
-            const iconColor = isActive ? COLORS.primary : COLORS.textSecondary;
+            const iconColor = isActive ? COLORS.primary : COLORS.sidebarText;
             return (
               <Link
                 key={href}
@@ -76,7 +76,7 @@ export default function DashboardShell({ children, userEmail }) {
                   as="span"
                   size="body"
                   weight={isActive ? "semiBold" : "regular"}
-                  color={iconColor}
+                  color={COLORS.sidebarText}
                 >
                   {label}
                 </AppText>
@@ -88,14 +88,14 @@ export default function DashboardShell({ children, userEmail }) {
         <div className={styles.sidebarBottom}>
           <div className={styles.userInfo}>
             <div className={styles.avatar}>
-              <AppText as="span" size="small" weight="semiBold" color="#ffffff">
+              <AppText as="span" size="small" weight="semiBold" color={COLORS.sidebarText}>
                 {getInitials(userEmail)}
               </AppText>
             </div>
             <AppText
               as="span"
               size="small"
-              color={COLORS.textSecondary}
+              color={COLORS.sidebarTextMuted}
               numberOfLines={1}
               style={{ flex: 1, minWidth: 0 }}
             >
@@ -108,8 +108,8 @@ export default function DashboardShell({ children, userEmail }) {
             onClick={handleLogout}
             aria-label="Logga ut"
           >
-            <SignOutIcon size={18} color={COLORS.textSecondary} />
-            <AppText as="span" size="body" color={COLORS.textSecondary}>
+            <SignOutIcon size={18} color={COLORS.sidebarTextMuted} />
+            <AppText as="span" size="body" color={COLORS.sidebarTextMuted}>
               Logga ut
             </AppText>
           </button>
