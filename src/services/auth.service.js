@@ -31,9 +31,30 @@ export async function getSession() {
   return data.session;
 }
 
+/**
+ * Validates that the current session still maps to a real user.
+ * This prevents stale client-side session objects from keeping UI "logged in".
+ */
+export async function getValidatedSession() {
+  const session = await getSession();
+
+  if (!session) return null;
+
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
+
+  if (error || !user) {
+    return null;
+  }
+
+  return session;
+}
+
 export function onAuthStateChange(callback) {
-  const { data } = supabase.auth.onAuthStateChange((_event, session) => {
-    callback(session);
+  const { data } = supabase.auth.onAuthStateChange((event, session) => {
+    callback(event, session);
   });
 
   return data.subscription;

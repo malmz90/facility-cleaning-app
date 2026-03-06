@@ -18,7 +18,7 @@ export default function CreateOrganizationPage() {
 
   const handleSignOut = async () => {
     await signOut();
-    router.push("/login");
+    router.replace("/login");
   };
 
   return (

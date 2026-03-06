@@ -1,8 +1,9 @@
 "use client";
 
 import { createContext, useCallback, useEffect, useMemo, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import {
-  getSession,
+  getValidatedSession,
   onAuthStateChange,
   signIn as signInService,
   signOut as signOutService,
@@ -23,7 +24,22 @@ import {
  */
 export const AuthContext = createContext(null);
 
+const PROTECTED_ROUTE_PREFIXES = [
+  "/dashboard",
+  "/buildings",
+  "/employees",
+  "/onboarding",
+];
+
+function isProtectedPath(pathname) {
+  return PROTECTED_ROUTE_PREFIXES.some(
+    (routePrefix) => pathname === routePrefix || pathname.startsWith(`${routePrefix}/`),
+  );
+}
+
 export function AuthProvider({ children }) {
+  const pathname = usePathname();
+  const router = useRouter();
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -32,10 +48,13 @@ export function AuthProvider({ children }) {
 
     const loadSession = async () => {
       try {
-        const currentSession = await getSession();
+        // One-time fallback check at app load.
+        // If the cookie/session token is stale, this returns null.
+        const currentSession = await getValidatedSession();
         if (mounted) setSession(currentSession);
       } catch (error) {
         console.error("Could not load session:", error.message);
+        if (mounted) setSession(null);
       } finally {
         if (mounted) setLoading(false);
       }
@@ -43,8 +62,17 @@ export function AuthProvider({ children }) {
 
     loadSession();
 
-    const subscription = onAuthStateChange((nextSession) => {
-      if (mounted) setSession(nextSession);
+    const subscription = onAuthStateChange((event, nextSession) => {
+      if (!mounted) return;
+
+      if (event === "SIGNED_OUT") {
+        setSession(null);
+      } else {
+        setSession(nextSession ?? null);
+      }
+
+      // Never leave auth UI in loading after any auth event.
+      setLoading(false);
     });
 
     return () => {
@@ -52,6 +80,16 @@ export function AuthProvider({ children }) {
       subscription?.unsubscribe();
     };
   }, []);
+
+  useEffect(() => {
+    if (loading) return;
+
+    // Client-side fallback: if auth disappears while on a protected page,
+    // force navigation to login instead of leaving the UI in a pending state.
+    if (!session && isProtectedPath(pathname)) {
+      router.replace("/login");
+    }
+  }, [loading, pathname, router, session]);
 
   const signUp = useCallback(async (email, password) => {
     const data = await signUpService(email, password);
@@ -66,8 +104,14 @@ export function AuthProvider({ children }) {
   }, []);
 
   const signOut = useCallback(async () => {
-    await signOutService();
-    setSession(null);
+    setLoading(true);
+    try {
+      await signOutService();
+      setSession(null);
+    } finally {
+      // Ensure UI does not get stuck even if sign-out returns an error.
+      setLoading(false);
+    }
   }, []);
 
   const value = useMemo(

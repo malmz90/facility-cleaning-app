@@ -10,7 +10,15 @@ if (!supabaseUrl || !supabaseAnonKey) {
 }
 
 /**
- * Creates a Supabase client for use in Client Components
- * This properly handles cookies for SSR/App Router
+ * Browser Supabase client factory.
+ * Uses the SSR helper so auth state is persisted in cookies.
  */
-export const supabase = createBrowserClient(supabaseUrl, supabaseAnonKey);
+export function createClient() {
+  return createBrowserClient(supabaseUrl, supabaseAnonKey);
+}
+
+/**
+ * Reuse one browser client instance across renders/navigation.
+ * This avoids duplicate auth subscriptions in client components.
+ */
+export const supabase = createClient();

@@ -32,7 +32,7 @@ export default function DashboardShell({ children, userEmail }) {
 
   const handleLogout = async () => {
     await signOut();
-    router.push("/login");
+    router.replace("/login");
   };
 
   const closeSidebar = () => setSidebarOpen(false);
