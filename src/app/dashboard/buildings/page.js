@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import Link from "next/link";
 import AppText from "@/components/ui/AppText";
 import AddBuildingModal from "@/components/ui/AddBuildingModal";
 import { COLORS } from "@/constants";
@@ -48,7 +49,12 @@ export default async function BuildingsPage() {
       ) : (
         <div className={styles.list}>
           {buildings.map((b) => (
-            <div key={b.id} className={styles.listItem}>
+            <Link
+              key={b.id}
+              href={`/dashboard/buildings/${b.id}`}
+              className={styles.listItem}
+              aria-label={`Visa rum i ${b.name}`}
+            >
               <div className={styles.itemIcon} aria-hidden="true">
                 🏢
               </div>
@@ -62,7 +68,16 @@ export default async function BuildingsPage() {
                   </AppText>
                 )}
               </div>
-            </div>
+              <AppText
+                as="span"
+                size="small"
+                weight="semiBold"
+                color={COLORS.link}
+                style={{ marginLeft: "auto" }}
+              >
+                Visa rum
+              </AppText>
+            </Link>
           ))}
         </div>
       )}

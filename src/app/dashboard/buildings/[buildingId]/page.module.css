@@ -1,0 +1,67 @@
+.page {
+  display: grid;
+  gap: 20px;
+  max-width: 760px;
+}
+
+.header {
+  display: grid;
+  gap: 6px;
+}
+
+.backLink {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #212121;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.backLink:hover {
+  color: #1d2935;
+  text-decoration: underline;
+}
+
+.backLink:focus-visible {
+  outline: 2px solid #554c48;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.divider {
+  height: 1px;
+  background: rgba(123, 96, 83, 0.2);
+}
+
+.empty {
+  display: grid;
+  gap: 6px;
+  padding: 28px 0;
+}
+
+.list {
+  display: grid;
+  gap: 12px;
+}
+
+.roomCard {
+  display: grid;
+  gap: 8px;
+  padding: 14px 16px;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid rgba(123, 96, 83, 0.12);
+}
+
+.frequencyBadge {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(19, 121, 125, 0.12);
+  border: 1px solid rgba(19, 121, 125, 0.24);
+}
