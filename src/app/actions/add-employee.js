@@ -4,8 +4,16 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 
 const ADJECTIVES = [
-  "snabb", "noggrann", "glad", "duktig", "stark",
-  "flink", "pigg", "lugn", "snygg", "fin",
+  "snabb",
+  "noggrann",
+  "glad",
+  "duktig",
+  "stark",
+  "flink",
+  "pigg",
+  "lugn",
+  "snygg",
+  "fin",
 ];
 
 function generateUsername() {
@@ -14,17 +22,37 @@ function generateUsername() {
   return `${adj}${num}`;
 }
 
-function generatePassword(length = 12) {
-  // Exclude ambiguous chars (0/O, 1/l/I) for readability
-  const chars = "ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789";
-  return Array.from(
-    { length },
-    () => chars[Math.floor(Math.random() * chars.length)]
-  ).join("");
+function generatePassword() {
+  // Easier one-time password: exactly 3 letters + 3 numbers.
+  const letters = "abcdefghjkmnpqrstuvwxyz";
+  const numbers = "23456789";
+
+  const passwordChars = [
+    ...Array.from(
+      { length: 3 },
+      () => letters[Math.floor(Math.random() * letters.length)],
+    ),
+    ...Array.from(
+      { length: 3 },
+      () => numbers[Math.floor(Math.random() * numbers.length)],
+    ),
+  ];
+
+  // Shuffle so it's not always LLLNNN.
+  for (let i = passwordChars.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [passwordChars[i], passwordChars[j]] = [passwordChars[j], passwordChars[i]];
+  }
+
+  return passwordChars.join("");
 }
 
 function sanitizeUsername(raw) {
-  return raw.toLowerCase().trim().replace(/\s+/g, "_").replace(/[^a-z0-9_]/g, "");
+  return raw
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "_")
+    .replace(/[^a-z0-9_]/g, "");
 }
 
 export async function addEmployeeAction(_prevState, formData) {
@@ -63,10 +91,15 @@ export async function addEmployeeAction(_prevState, formData) {
   }
 
   const rawUsername = formData.get("username")?.toString().trim() ?? "";
-  const username = rawUsername ? sanitizeUsername(rawUsername) : generateUsername();
+  const username = rawUsername
+    ? sanitizeUsername(rawUsername)
+    : generateUsername();
 
   if (!username) {
-    return { error: "Ogiltigt användarnamn – använd bara bokstäver, siffror och understreck." };
+    return {
+      error:
+        "Ogiltigt användarnamn – använd bara bokstäver, siffror och understreck.",
+    };
   }
 
   const email = `${username}@cleanops.local`;

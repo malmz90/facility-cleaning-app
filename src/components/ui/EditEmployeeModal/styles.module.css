@@ -1,0 +1,102 @@
+.dotsBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  border: 1px solid rgba(29, 41, 53, 0.12);
+  background: #f8f9fb;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+  flex-shrink: 0;
+}
+
+.dotsBtn:hover {
+  background: #eef2f6;
+  border-color: rgba(29, 41, 53, 0.2);
+}
+
+.dotsBtn:active {
+  background: #e6ebf1;
+}
+
+.dotsBtn:focus-visible {
+  outline: 2px solid #554c48;
+  outline-offset: 2px;
+}
+
+.dotsIcon {
+  display: block;
+}
+
+/* ── Edit view ────────────────────────────────────────── */
+
+.editContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px 24px 24px;
+}
+
+.formActions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  padding-top: 4px;
+}
+
+.errorBanner {
+  padding: 10px 14px;
+  background-color: #f0adad;
+  border-radius: 8px;
+}
+
+/* Subtle separator + remove link at the bottom of the edit view */
+.dangerZone {
+  padding: 12px 24px 20px;
+  border-top: 1px solid rgba(123, 96, 83, 0.12);
+}
+
+.removeLink {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #d33434;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0;
+  line-height: 1.4;
+}
+
+.removeLink:hover {
+  text-decoration: underline;
+}
+
+.removeLink:focus-visible {
+  outline: 2px solid #d33434;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ── Confirm-remove view ──────────────────────────────── */
+
+.confirmForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px 24px 24px;
+}
+
+.confirmText {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}

@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import AppText from "@/components/ui/AppText";
 import AddEmployeeModal from "@/components/ui/AddEmployeeModal";
+import EditEmployeeModal from "@/components/ui/EditEmployeeModal";
 import { COLORS } from "@/constants";
 import styles from "./page.module.css";
 
@@ -23,7 +24,10 @@ export default async function EmployeesPage() {
 
   const {
     data: { user },
+    error: userError,
   } = await supabase.auth.getUser();
+
+  if (userError || !user) return null;
 
   const { data: profile } = await supabase
     .from("profiles")
@@ -83,6 +87,11 @@ export default async function EmployeesPage() {
                     {ROLE_LABELS[m.role] ?? m.role}
                   </AppText>
                 </div>
+                <EditEmployeeModal
+                  userId={m.user_id}
+                  name={name}
+                  isCurrentUser={m.user_id === user.id}
+                />
               </div>
             );
           })}
