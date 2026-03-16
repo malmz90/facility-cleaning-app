@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 
@@ -163,7 +164,10 @@ export async function addEmployeeAction(_prevState, formData) {
     console.error("Profile update failed:", profileError.message);
   }
 
-  // 7. Return the one-time credentials to display to the admin
+  // 7. Invalidate the employees page so router.refresh() picks up the new row.
+  revalidatePath("/dashboard/employees");
+
+  // 8. Return the one-time credentials to display to the admin
   return {
     success: true,
     credentials: {

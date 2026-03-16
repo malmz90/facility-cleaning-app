@@ -112,6 +112,7 @@ export async function removeEmployeeAction(_prevState, formData) {
 
   const adminClient = createAdminClient();
 
+  // Step 1: Remove from this organization.
   const { error: deleteError } = await adminClient
     .from("organization_members")
     .delete()
@@ -120,6 +121,32 @@ export async function removeEmployeeAction(_prevState, formData) {
 
   if (deleteError) {
     return { error: `Kunde inte ta bort anställd: ${deleteError.message}` };
+  }
+
+  // Step 2: Check if the user still belongs to any other organization.
+  // If they were a fake (cleanops.local) account with no other memberships,
+  // delete the auth user entirely — this cascades to the profiles table
+  // and any other rows that reference auth.users with ON DELETE CASCADE.
+  const { data: remainingMemberships } = await adminClient
+    .from("organization_members")
+    .select("organization_id")
+    .eq("user_id", targetUserId)
+    .limit(1);
+
+  const hasOtherOrgs =
+    Array.isArray(remainingMemberships) && remainingMemberships.length > 0;
+
+  if (!hasOtherOrgs) {
+    const { error: authDeleteError } =
+      await adminClient.auth.admin.deleteUser(targetUserId);
+
+    if (authDeleteError) {
+      // Membership was already removed — log but don't surface as a hard error.
+      console.error(
+        "Auth user deletion failed after membership removal:",
+        authDeleteError.message,
+      );
+    }
   }
 
   revalidatePath("/dashboard/employees");

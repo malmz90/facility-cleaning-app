@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useActionState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { CopySimpleIcon, CheckIcon, XIcon } from "@phosphor-icons/react";
 import { addEmployeeAction } from "@/app/actions/add-employee";
 import AppButton from "@/components/ui/AppButton";
@@ -120,9 +121,16 @@ export default function AddEmployeeModal() {
 }
 
 function ModalForm({ onClose }) {
+  const router = useRouter();
   const [state, formAction, isPending] = useActionState(addEmployeeAction, null);
 
   const success = state?.success && state?.credentials;
+
+  // Refresh the server-rendered employee list in the background so it's
+  // already up to date by the time the user closes the credentials view.
+  useEffect(() => {
+    if (success) router.refresh();
+  }, [success, router]);
 
   if (success) {
     return (
