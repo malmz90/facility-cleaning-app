@@ -47,6 +47,36 @@
   gap: 12px;
 }
 
+.filterTabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filterTab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(123, 96, 83, 0.24);
+  color: #212121;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  background: #ffffff;
+}
+
+.filterTab:hover {
+  border-color: rgba(19, 121, 125, 0.35);
+}
+
+.filterTabActive {
+  border-color: rgba(19, 121, 125, 0.45);
+  background: rgba(19, 121, 125, 0.1);
+  color: #0f5d60;
+}
+
 .roomCard {
   display: grid;
   gap: 8px;
@@ -54,6 +84,13 @@
   background: #ffffff;
   border-radius: 12px;
   border: 1px solid rgba(123, 96, 83, 0.12);
+}
+
+.roomCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .frequencyBadge {
@@ -64,4 +101,28 @@
   border-radius: 999px;
   background: rgba(19, 121, 125, 0.12);
   border: 1px solid rgba(19, 121, 125, 0.24);
+}
+
+.statusBadge {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+}
+
+.statusClean {
+  background: #f0f7f0;
+  border-color: rgba(41, 129, 44, 0.28);
+}
+
+.statusDue {
+  background: #fff6ef;
+  border-color: rgba(255, 136, 72, 0.35);
+}
+
+.statusOverdue {
+  background: #fff1f1;
+  border-color: rgba(211, 52, 52, 0.35);
 }

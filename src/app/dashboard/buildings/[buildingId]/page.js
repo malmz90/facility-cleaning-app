@@ -4,6 +4,13 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import AppText from "@/components/ui/AppText";
 import { COLORS } from "@/constants";
+import {
+  annotateRoomsWithStatus,
+  buildLastCleanedMap,
+  formatRelativeTime,
+  ROOM_STATUS_META,
+  sortRoomsByStatus,
+} from "@/lib/room-status";
 import styles from "./page.module.css";
 
 const CLEANING_FREQUENCY_LABELS = {
@@ -17,8 +24,22 @@ function getCleaningFrequencyLabel(value) {
   return CLEANING_FREQUENCY_LABELS[value] ?? `Städning: ${value}`;
 }
 
-export default async function BuildingDetailPage({ params }) {
+const ROOM_FILTERS = [
+  { key: "all", label: "Alla" },
+  { key: "clean", label: "Rena" },
+  { key: "due", label: "Snart dags" },
+  { key: "overdue", label: "Försenade" },
+];
+
+function getStatusBadgeClass(status) {
+  if (status === "overdue") return styles.statusOverdue;
+  if (status === "due") return styles.statusDue;
+  return styles.statusClean;
+}
+
+export default async function BuildingDetailPage({ params, searchParams }) {
   const { buildingId } = await params;
+  const resolvedSearchParams = await searchParams;
   const supabase = await createClient();
 
   const {
@@ -49,6 +70,31 @@ export default async function BuildingDetailPage({ params }) {
     .select("id, name, cleaning_frequency, instructions, qr_code_id")
     .eq("building_id", buildingId)
     .order("created_at", { ascending: false });
+
+  const roomIds = rooms?.map((room) => room.id) ?? [];
+  let cleaningLogs = [];
+
+  if (roomIds.length > 0) {
+    const { data: cleaningLogData } = await supabase
+      .from("cleaning_logs")
+      .select("room_id, cleaned_at")
+      .in("room_id", roomIds);
+    cleaningLogs = cleaningLogData ?? [];
+  }
+
+  const lastCleanedByRoom = buildLastCleanedMap(cleaningLogs);
+  const roomsWithStatus = sortRoomsByStatus(
+    annotateRoomsWithStatus(rooms ?? [], lastCleanedByRoom),
+  );
+
+  const activeFilter = ROOM_FILTERS.some((filter) => filter.key === resolvedSearchParams?.status)
+    ? resolvedSearchParams.status
+    : "all";
+
+  const visibleRooms =
+    activeFilter === "all"
+      ? roomsWithStatus
+      : roomsWithStatus.filter((room) => room.status === activeFilter);
 
   return (
     <div className={styles.page}>
@@ -83,25 +129,71 @@ export default async function BuildingDetailPage({ params }) {
           </AppText>
         </div>
       ) : (
-        <div className={styles.list}>
-          {rooms.map((room) => (
-            <div key={room.id} className={styles.roomCard}>
-              <AppText as="h2" size="body" weight="semiBold">
-                {room.name}
+        <>
+          <div className={styles.filterTabs} role="tablist" aria-label="Filtrera rum efter status">
+            {ROOM_FILTERS.map((filter) => {
+              const href =
+                filter.key === "all"
+                  ? `/dashboard/buildings/${buildingId}`
+                  : `/dashboard/buildings/${buildingId}?status=${filter.key}`;
+              const isActive = activeFilter === filter.key;
+              return (
+                <Link
+                  key={filter.key}
+                  href={href}
+                  className={`${styles.filterTab} ${isActive ? styles.filterTabActive : ""}`}
+                  aria-current={isActive ? "page" : undefined}
+                >
+                  {filter.label}
+                </Link>
+              );
+            })}
+          </div>
+
+          {visibleRooms.length === 0 ? (
+            <div className={styles.empty}>
+              <AppText as="p" size="small" color={COLORS.textSecondary}>
+                Inga rum matchar det valda filtret.
               </AppText>
-              <span className={styles.frequencyBadge}>
-                <AppText as="span" size="small" color={COLORS.primary}>
-                  {getCleaningFrequencyLabel(room.cleaning_frequency)}
-                </AppText>
-              </span>
-              {room.instructions ? (
-                <AppText as="p" size="small" color={COLORS.textSecondary}>
-                  Instruktion: {room.instructions}
-                </AppText>
-              ) : null}
             </div>
-          ))}
-        </div>
+          ) : (
+            <div className={styles.list}>
+              {visibleRooms.map((room) => {
+                const statusMeta = ROOM_STATUS_META[room.status] ?? ROOM_STATUS_META.clean;
+                return (
+                  <div key={room.id} className={styles.roomCard}>
+                    <div className={styles.roomCardHeader}>
+                      <AppText as="h2" size="body" weight="semiBold">
+                        {room.name}
+                      </AppText>
+                      <span className={`${styles.statusBadge} ${getStatusBadgeClass(room.status)}`}>
+                        <AppText as="span" size="small" weight="semiBold">
+                          {statusMeta.emoji} {statusMeta.label}
+                        </AppText>
+                      </span>
+                    </div>
+
+                    <span className={styles.frequencyBadge}>
+                      <AppText as="span" size="small" color={COLORS.primary}>
+                        {getCleaningFrequencyLabel(room.cleaning_frequency)}
+                      </AppText>
+                    </span>
+
+                    <AppText as="p" size="small" color={COLORS.textSecondary}>
+                      Senast städat: {formatRelativeTime(room.last_cleaned)}
+                    </AppText>
+
+                    {room.instructions ? (
+                      <AppText as="p" size="small" color={COLORS.textSecondary}>
+                        Instruktion: {room.instructions}
+                      </AppText>
+                    ) : null}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </>
       )}
     </div>
   );

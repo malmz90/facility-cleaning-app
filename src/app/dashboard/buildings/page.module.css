@@ -68,3 +68,10 @@
   gap: 2px;
   min-width: 0;
 }
+
+.statusRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+}

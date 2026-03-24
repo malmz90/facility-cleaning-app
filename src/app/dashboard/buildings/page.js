@@ -3,6 +3,10 @@ import Link from "next/link";
 import AppText from "@/components/ui/AppText";
 import AddBuildingModal from "@/components/ui/AddBuildingModal";
 import { COLORS } from "@/constants";
+import {
+  annotateRoomsWithStatus,
+  buildLastCleanedMap,
+} from "@/lib/room-status";
 import styles from "./page.module.css";
 
 export default async function BuildingsPage() {
@@ -26,6 +30,61 @@ export default async function BuildingsPage() {
     .eq("organization_id", orgId)
     .order("created_at", { ascending: false });
 
+  const buildingIds = buildings?.map((building) => building.id) ?? [];
+
+  let rooms = [];
+  if (buildingIds.length > 0) {
+    const { data: roomData } = await supabase
+      .from("rooms")
+      .select("id, building_id, cleaning_frequency")
+      .in("building_id", buildingIds);
+    rooms = roomData ?? [];
+  }
+
+  const roomIds = rooms.map((room) => room.id);
+  let cleaningLogs = [];
+  if (roomIds.length > 0) {
+    const { data: cleaningLogData } = await supabase
+      .from("cleaning_logs")
+      .select("room_id, cleaned_at")
+      .in("room_id", roomIds);
+    cleaningLogs = cleaningLogData ?? [];
+  }
+
+  const lastCleanedByRoom = buildLastCleanedMap(cleaningLogs);
+  const roomsWithStatus = annotateRoomsWithStatus(rooms, lastCleanedByRoom);
+
+  const roomStatsByBuilding = new Map();
+  for (const buildingId of buildingIds) {
+    roomStatsByBuilding.set(buildingId, { clean: 0, due: 0, overdue: 0, total: 0 });
+  }
+
+  for (const room of roomsWithStatus) {
+    const buildingStats = roomStatsByBuilding.get(room.building_id) ?? {
+      clean: 0,
+      due: 0,
+      overdue: 0,
+      total: 0,
+    };
+    const statusKey = room.status === "due" || room.status === "overdue" ? room.status : "clean";
+    roomStatsByBuilding.set(room.building_id, {
+      clean: buildingStats.clean + (statusKey === "clean" ? 1 : 0),
+      due: buildingStats.due + (statusKey === "due" ? 1 : 0),
+      overdue: buildingStats.overdue + (statusKey === "overdue" ? 1 : 0),
+      total: buildingStats.total + 1,
+    });
+  }
+
+  const buildingsWithStats = (buildings ?? []).map((building) => ({
+    ...building,
+    stats: roomStatsByBuilding.get(building.id) ?? {
+      clean: 0,
+      due: 0,
+      overdue: 0,
+      total: 0,
+    },
+  }));
+
   return (
     <div className={styles.page}>
       <div className={styles.heading}>
@@ -48,25 +107,36 @@ export default async function BuildingsPage() {
         </div>
       ) : (
         <div className={styles.list}>
-          {buildings.map((b) => (
+          {buildingsWithStats.map((building) => (
             <Link
-              key={b.id}
-              href={`/dashboard/buildings/${b.id}`}
+              key={building.id}
+              href={`/dashboard/buildings/${building.id}`}
               className={styles.listItem}
-              aria-label={`Visa rum i ${b.name}`}
+              aria-label={`Visa rum i ${building.name}`}
             >
               <div className={styles.itemIcon} aria-hidden="true">
                 🏢
               </div>
               <div className={styles.itemInfo}>
                 <AppText as="p" size="body" weight="semiBold">
-                  {b.name}
+                  {building.name}
                 </AppText>
-                {b.address && (
+                {building.address && (
                   <AppText as="p" size="small" color={COLORS.textSecondary}>
-                    {b.address}
+                    {building.address}
                   </AppText>
                 )}
+                <div className={styles.statusRow} aria-label={`Städstatus för ${building.name}`}>
+                  <AppText as="span" size="small" color={COLORS.success}>
+                    🟢 {building.stats.clean}
+                  </AppText>
+                  <AppText as="span" size="small" color={COLORS.warning}>
+                    🟡 {building.stats.due}
+                  </AppText>
+                  <AppText as="span" size="small" color={COLORS.error}>
+                    🔴 {building.stats.overdue}
+                  </AppText>
+                </div>
               </div>
               <AppText
                 as="span"

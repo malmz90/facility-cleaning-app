@@ -11,7 +11,6 @@ import styles from "./styles.module.css";
 export default function StatCard({ label, value, color = COLORS.primary }) {
   return (
     <div className={styles.card}>
-      <div className={styles.dot} style={{ backgroundColor: color }} />
       <AppText as="p" variant="pageTitle" style={{ color }}>
         {value}
       </AppText>
