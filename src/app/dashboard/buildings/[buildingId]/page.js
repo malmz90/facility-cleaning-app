@@ -67,12 +67,13 @@ export default async function BuildingDetailPage({ params, searchParams }) {
 
   const { data: rooms } = await supabase
     .from("rooms")
-    .select("id, name, cleaning_frequency, instructions, qr_code_id")
+    .select("id, name, cleaning_frequency, qr_code_id")
     .eq("building_id", buildingId)
     .order("created_at", { ascending: false });
 
   const roomIds = rooms?.map((room) => room.id) ?? [];
   let cleaningLogs = [];
+  let roomInstructions = [];
 
   if (roomIds.length > 0) {
     const { data: cleaningLogData } = await supabase
@@ -80,11 +81,32 @@ export default async function BuildingDetailPage({ params, searchParams }) {
       .select("room_id, cleaned_at")
       .in("room_id", roomIds);
     cleaningLogs = cleaningLogData ?? [];
+
+    const { data: roomInstructionData } = await supabase
+      .from("room_instructions")
+      .select("room_id, text, order_index, created_at")
+      .in("room_id", roomIds)
+      .order("order_index", { ascending: true })
+      .order("created_at", { ascending: true });
+    roomInstructions = roomInstructionData ?? [];
   }
+
+  const instructionsByRoomId = new Map();
+  for (const instruction of roomInstructions) {
+    if (!instruction?.room_id || !instruction?.text) continue;
+    const current = instructionsByRoomId.get(instruction.room_id) ?? [];
+    current.push(instruction.text.trim());
+    instructionsByRoomId.set(instruction.room_id, current);
+  }
+
+  const roomsWithInstructions = (rooms ?? []).map((room) => ({
+    ...room,
+    instructions: instructionsByRoomId.get(room.id) ?? [],
+  }));
 
   const lastCleanedByRoom = buildLastCleanedMap(cleaningLogs);
   const roomsWithStatus = sortRoomsByStatus(
-    annotateRoomsWithStatus(rooms ?? [], lastCleanedByRoom),
+    annotateRoomsWithStatus(roomsWithInstructions, lastCleanedByRoom),
   );
 
   const activeFilter = ROOM_FILTERS.some((filter) => filter.key === resolvedSearchParams?.status)
@@ -183,9 +205,10 @@ export default async function BuildingDetailPage({ params, searchParams }) {
                       Senast städat: {formatRelativeTime(room.last_cleaned)}
                     </AppText>
 
-                    {room.instructions ? (
+                    {room.instructions.length > 0 ? (
                       <AppText as="p" size="small" color={COLORS.textSecondary}>
-                        Instruktion: {room.instructions}
+                        {room.instructions.length > 1 ? "Instruktioner" : "Instruktion"}:{" "}
+                        {room.instructions.join(" • ")}
                       </AppText>
                     ) : null}
                   </div>
