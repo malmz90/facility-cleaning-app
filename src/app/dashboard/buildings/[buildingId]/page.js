@@ -26,9 +26,9 @@ function getCleaningFrequencyLabel(value) {
 
 const ROOM_FILTERS = [
   { key: "all", label: "Alla" },
-  { key: "clean", label: "Rena" },
+  { key: "clean", label: "Nyligen städat" },
   { key: "due", label: "Snart dags" },
-  { key: "overdue", label: "Försenade" },
+  { key: "overdue", label: "Behöver städas" },
 ];
 
 function getStatusBadgeClass(status) {

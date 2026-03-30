@@ -15,7 +15,7 @@ export const ROOM_STATUS_ORDER = {
 export const ROOM_STATUS_META = {
   clean: {
     key: "clean",
-    label: "Ren",
+    label: "Nyligen städat",
     emoji: "🟢",
   },
   due: {
@@ -25,7 +25,7 @@ export const ROOM_STATUS_META = {
   },
   overdue: {
     key: "overdue",
-    label: "Försenad",
+    label: "Behöver städas",
     emoji: "🔴",
   },
 };

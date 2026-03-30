@@ -98,7 +98,7 @@ export default async function DashboardPage() {
         id: room.id,
         title: room.name,
         location: `${building?.name ?? "Okänd byggnad"} • ${formatRelativeTime(room.last_cleaned)}`,
-        status: isOverdue ? "🔴 Försenad" : "🟡 Snart dags",
+        status: isOverdue ? "🔴 Behöver städas" : "🟡 Snart dags",
         statusColor: isOverdue ? COLORS.error : COLORS.warning,
         statusBg: isOverdue ? "#fff1f1" : "#fff6ef",
       };
@@ -106,9 +106,9 @@ export default async function DashboardPage() {
 
   const stats = [
     { label: "🔵 Byggnader", value: buildings.length.toString(), color: COLORS.info },
-    { label: "🟢 Rena rum", value: roomCounts.clean.toString(), color: COLORS.success },
+    { label: "🟢 Nyligen städat", value: roomCounts.clean.toString(), color: COLORS.success },
     { label: "🟡 Snart dags", value: roomCounts.due.toString(), color: COLORS.warning },
-    { label: "🔴 Försenade rum", value: roomCounts.overdue.toString(), color: COLORS.error },
+    { label: "🔴 Behöver städas", value: roomCounts.overdue.toString(), color: COLORS.error },
   ];
 
   return (
